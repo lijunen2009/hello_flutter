@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:english_words/english_words.dart';
+import 'package:hello_flutter/component/bottom_bar.dart';
 class RandomWords extends StatefulWidget {
   @override
   RandomWordsState createState() => new RandomWordsState();
@@ -12,18 +13,8 @@ class RandomWordsState extends State<RandomWords> {
   final Set<WordPair> _saved = new Set<WordPair>();
   final TextStyle _biggerFont = const TextStyle(fontSize: 18.0);
   Widget build(BuildContext context) {
-    return new Scaffold(
-      appBar: new AppBar(
-        title: const Text('Startup Name Generator'),
-        actions: <Widget>[
-          new IconButton(
-            icon: const Icon(Icons.list),
-            onPressed: _pushSaved,
-            color: Colors.red,
-          ),
-        ],
-      ),
-      body: _buildSuggestions(),
+    return new Container(
+      child: _buildSuggestions(),
     );
   }
 

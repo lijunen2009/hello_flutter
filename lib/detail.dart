@@ -1,13 +1,23 @@
 import 'package:flutter/material.dart';
-
+import 'package:hello_flutter/component/bottom_bar.dart';
+import 'package:hello_flutter/util/HttpUtil.dart';
 class DetailPage extends StatefulWidget {
   @override
   DetailStatus createState() => DetailStatus();
 }
 
 class DetailStatus extends State<DetailPage> {
+
+  Future getData() async {
+    String url = 'store/getStoreById';
+    var data = {'store_id': 45, 'lat': 40.23,'lng':111.234};
+    var response = await HttpUtil().post(url, data: data);
+    print(response);
+  }
+
   @override
   Widget build(BuildContext context) {
+    getData();
     Widget titleSection = new Container(
         padding: const EdgeInsets.all(32.0),
         child: new Row(
@@ -39,21 +49,97 @@ class DetailStatus extends State<DetailPage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                new Text('biao', style: new TextStyle(color: Colors.black,fontSize: 28.0)),
-                new Text('sub title',style: new TextStyle(color:Colors.grey),)
+                new Text('biao',
+                    style: new TextStyle(color: Colors.black, fontSize: 28.0)),
+                new Text(
+                  'sub title',
+                  style: new TextStyle(color: Colors.grey),
+                )
               ]),
         ),
         new Icon(Icons.star),
         new Text('42')
       ]),
     );
-
-    return new Scaffold(
-        appBar: new AppBar(
-          title: const Text('this is detail'),
-        ),
-        body: new ListView(
-          padding: const EdgeInsets.all(10.0),
-          children: [titleSection, header]));
+    Widget imageContaner = new Container(
+        child: new Image.asset(
+      'img/a.jpg',
+      fit: BoxFit.fill,
+    ));
+    Widget imageContaner1 = new Container(
+        child: new Image.asset(
+      'img/1.jpg',
+      fit: BoxFit.fill,
+    ));
+    Widget imageContaner2 = new Container(
+        child: new Image.asset(
+      'img/2.jpg',
+      fit: BoxFit.fill,
+    ));
+    Widget text = new Container(
+      child: new Text(
+        '这是要侠士的内容这是要侠士的内容这是要侠士的内容这是要侠士的内容这是要侠士的内容这是要侠士的内容这是要侠士的内容',
+        textAlign: TextAlign.start,
+        style: new TextStyle(
+            fontStyle: FontStyle.normal, fontSize: 23.0, color: Colors.grey),
+        maxLines: 3,
+        overflow: TextOverflow.ellipsis,
+      ),
+    );
+    Widget button = new RaisedButton(
+      child: new Text('这是个buttont'),
+      color: Color.fromRGBO(255, 87, 34,1.0),
+      textColor: Color.fromRGBO(255, 255, 255,1.0),
+      onPressed: (){
+        Navigator.of(context).pushNamed('/hor');
+      },
+    );
+    Widget button2 = new RaisedButton(
+      child: new Text('产品列表'),
+      color: Color.fromRGBO(255, 87, 34,1.0),
+      textColor: Color.fromRGBO(255, 255, 255,1.0),
+      onPressed: (){
+        Navigator.of(context).pushNamed('/product');
+      },
+    );
+    Widget button3 = new RaisedButton(
+      child: new Text('去看看grid'),
+      color: Color.fromRGBO(139, 195, 74, 1.0),
+      textColor: Color.fromRGBO(255, 255, 255, 1.0),
+      onPressed: (){
+        Navigator.of(context).pushNamed('/grid');
+      },
+    );
+    Widget customerButton = RaisedButton(
+      child: new Text('自定义button'),
+      color: Color.fromRGBO(156, 39, 176, 1.0),
+      textColor: Color.fromRGBO(255, 255, 255, 1.0),
+      onPressed: (){
+        Navigator.of(context).pushNamed('/my_button');
+      },
+    );
+    Widget customerButton2 = RaisedButton(
+      child: new Text('自定义button2'),
+      color: Color.fromRGBO(156, 39, 176, 1.0),
+      textColor: Color.fromRGBO(255, 255, 255, 1.0),
+      onPressed: (){
+        Navigator.of(context).pushNamed('/dismissible');
+      },
+    );
+    return new Container(
+      child: new ListView(padding: const EdgeInsets.all(10.0), children: [
+        imageContaner,
+        imageContaner1,
+        imageContaner2,
+        titleSection,
+        header,
+        text,
+        button,
+        button2,
+        button3,
+        customerButton,
+        customerButton2
+      ]),
+    );
   }
 }
