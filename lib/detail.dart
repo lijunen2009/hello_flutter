@@ -1,18 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:hello_flutter/component/bottom_bar.dart';
 import 'package:hello_flutter/util/HttpUtil.dart';
+import 'dart:convert';
+import 'package:hello_flutter/model/user.dart';
+
 class DetailPage extends StatefulWidget {
   @override
   DetailStatus createState() => DetailStatus();
 }
 
 class DetailStatus extends State<DetailPage> {
-
   Future getData() async {
-    String url = 'store/getStoreById';
-    var data = {'store_id': 45, 'lat': 40.23,'lng':111.234};
+    String url = 'test/test3';
+    var data = {'store_id': 45, 'lat': 40.23, 'lng': 111.234};
+    print(data['store_id']);
+    print(data['lat']);
     var response = await HttpUtil().post(url, data: data);
     print(response);
+    // print(response['name']);
+    print(response['msg']);
+    print(response['data']);
+    // print(response['data']['name']);
   }
 
   @override
@@ -88,17 +96,17 @@ class DetailStatus extends State<DetailPage> {
     );
     Widget button = new RaisedButton(
       child: new Text('这是个buttont'),
-      color: Color.fromRGBO(255, 87, 34,1.0),
-      textColor: Color.fromRGBO(255, 255, 255,1.0),
-      onPressed: (){
+      color: Color.fromRGBO(255, 87, 34, 1.0),
+      textColor: Color.fromRGBO(255, 255, 255, 1.0),
+      onPressed: () {
         Navigator.of(context).pushNamed('/hor');
       },
     );
     Widget button2 = new RaisedButton(
       child: new Text('产品列表'),
-      color: Color.fromRGBO(255, 87, 34,1.0),
-      textColor: Color.fromRGBO(255, 255, 255,1.0),
-      onPressed: (){
+      color: Color.fromRGBO(255, 87, 34, 1.0),
+      textColor: Color.fromRGBO(255, 255, 255, 1.0),
+      onPressed: () {
         Navigator.of(context).pushNamed('/product');
       },
     );
@@ -106,7 +114,7 @@ class DetailStatus extends State<DetailPage> {
       child: new Text('去看看grid'),
       color: Color.fromRGBO(139, 195, 74, 1.0),
       textColor: Color.fromRGBO(255, 255, 255, 1.0),
-      onPressed: (){
+      onPressed: () {
         Navigator.of(context).pushNamed('/grid');
       },
     );
@@ -114,7 +122,7 @@ class DetailStatus extends State<DetailPage> {
       child: new Text('自定义button'),
       color: Color.fromRGBO(156, 39, 176, 1.0),
       textColor: Color.fromRGBO(255, 255, 255, 1.0),
-      onPressed: (){
+      onPressed: () {
         Navigator.of(context).pushNamed('/my_button');
       },
     );
@@ -122,7 +130,7 @@ class DetailStatus extends State<DetailPage> {
       child: new Text('自定义button2'),
       color: Color.fromRGBO(156, 39, 176, 1.0),
       textColor: Color.fromRGBO(255, 255, 255, 1.0),
-      onPressed: (){
+      onPressed: () {
         Navigator.of(context).pushNamed('/dismissible');
       },
     );
