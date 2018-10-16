@@ -13,14 +13,14 @@ class DetailStatus extends State<DetailPage> {
   Future getData() async {
     String url = 'test/test3';
     var data = {'store_id': 45, 'lat': 40.23, 'lng': 111.234};
-    print(data['store_id']);
-    print(data['lat']);
     var response = await HttpUtil().post(url, data: data);
     print(response);
-    // print(response['name']);
-    print(response['msg']);
     print(response['data']);
-    // print(response['data']['name']);
+    // Map userMap = json.decode(response['data']);
+    var user = new User.fromJson(response['data']);
+    print(user.name);
+    print(user.phone);
+    
   }
 
   @override
