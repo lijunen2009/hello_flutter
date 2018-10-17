@@ -10,6 +10,7 @@ class DetailPage extends StatefulWidget {
 }
 
 class DetailStatus extends State<DetailPage> {
+  List stores =[];
   Future getData() async {
     String url = 'test/test3';
     var data = {'store_id': 45, 'lat': 40.23, 'lng': 111.234};
@@ -20,12 +21,30 @@ class DetailStatus extends State<DetailPage> {
     var user = new User.fromJson(response['data']);
     print(user.name);
     print(user.phone);
-    
+  }
+
+  Future listStore() async {
+    String url = 'store/listNearStore';
+    var data = { 'lat': 40.865741, 'lng': 111.761752,'distance':50000};
+    var response = await HttpUtil().post(url,data: data);
+    if(response['status'] == 200){
+      setState(() {
+          stores = response['data'];
+        });
+    }
+    print(stores);
+    print(response);
+  }
+  @override
+  void initState(){
+    super.initState();
+    // getData();
+    listStore();
+
   }
 
   @override
   Widget build(BuildContext context) {
-    getData();
     Widget titleSection = new Container(
         padding: const EdgeInsets.all(32.0),
         child: new Row(
