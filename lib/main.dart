@@ -7,6 +7,7 @@ import 'package:hello_flutter/product.dart';
 import 'package:hello_flutter/grid.dart';
 import 'package:hello_flutter/my_button.dart';
 import 'package:hello_flutter/dismissible.dart';
+import 'package:hello_flutter/order.dart';
 
 void main() => runApp(new MyApp());
 
@@ -23,7 +24,8 @@ class MyApp extends StatelessWidget {
         '/product':(BuildContext context)=>new ProductPage(),
         '/grid':(BuildContext context)=>new GridPage(),
         '/my_button':(BuildContext context)=>new ButtonPage(title: '终于可以传参数了',),
-        '/dismissible':(BuildContext context)=>new DismissiblePage()
+        '/dismissible':(BuildContext context)=>new DismissiblePage(),
+        '/order':(BuildContext context)=>new OrderPage()
       },
       title: 'Welcome to Flutter',
       home: new IndexPage(),

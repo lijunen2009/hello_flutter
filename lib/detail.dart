@@ -153,6 +153,14 @@ class DetailStatus extends State<DetailPage> {
         Navigator.of(context).pushNamed('/dismissible');
       },
     );
+    Widget orderButton = RaisedButton(
+      child: new Text('订单列表'),
+      color: Color.fromRGBO(156, 39, 176, 1.0),
+      textColor: Color.fromRGBO(255, 255, 255, 1.0),
+      onPressed: (){
+        Navigator.of(context).pushNamed('/order');
+      },
+    );
     return new Container(
       child: new ListView(padding: const EdgeInsets.all(10.0), children: [
         imageContaner,
@@ -165,7 +173,8 @@ class DetailStatus extends State<DetailPage> {
         button2,
         button3,
         customerButton,
-        customerButton2
+        customerButton2,
+        orderButton
       ]),
     );
   }
