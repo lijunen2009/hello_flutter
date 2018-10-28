@@ -39,7 +39,7 @@ class DetailStatus extends State<DetailPage> {
   void initState(){
     super.initState();
     // getData();
-    listStore();
+    // listStore();
 
   }
 

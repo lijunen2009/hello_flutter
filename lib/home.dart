@@ -1,12 +1,60 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:english_words/english_words.dart';
 import 'package:hello_flutter/component/bottom_bar.dart';
+
 class RandomWords extends StatefulWidget {
   @override
   RandomWordsState createState() => new RandomWordsState();
 }
 
 class RandomWordsState extends State<RandomWords> {
+  void _showLoading(){
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder:(BuildContext context){
+        return new Center(child:new CupertinoActivityIndicator(animating: true,radius: 30.0,) );
+      }
+    );
+  }
+
+
+
+  void _showIosDialog() {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return new CupertinoAlertDialog(
+            title: new Text('提示'),
+            content: new Text('这是内容'),
+          );
+        });
+  }
+
+  void _showDialog() {
+    // flutter defined function
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        // return object of type Dialog
+        return AlertDialog(
+          title: new Text("Alert Dialog title"),
+          content: new Text("Alert Dialog body"),
+          actions: <Widget>[
+            // usually buttons at the bottom of the dialog
+            new FlatButton(
+              child: new Text("确定"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   final List<WordPair> _suggestions = <WordPair>[];
   final WordPair wordPair = new WordPair.random();
@@ -14,7 +62,17 @@ class RandomWordsState extends State<RandomWords> {
   final TextStyle _biggerFont = const TextStyle(fontSize: 18.0);
   Widget build(BuildContext context) {
     return new Container(
-      child: _buildSuggestions(),
+      // child: _buildSuggestions(),
+      // child: new Center(child:new CupertinoActivityIndicator(animating: true,radius: 30.0,) )
+      
+      child: new RaisedButton(
+        child: new Text('dialog'),
+        onPressed: (){
+          // _showDialog();
+          // _showIosDialog();
+          _showLoading();
+        }
+      ),
     );
   }
 
@@ -72,15 +130,15 @@ class RandomWordsState extends State<RandomWords> {
             // ...接着再生成10个单词对，然后添加到建议列表
             _suggestions.addAll(generateWordPairs().take(10));
           }
-          return _buildRow(_suggestions[index]);
+          return _buildRow(_suggestions[index], index);
         });
   }
 
-  Widget _buildRow(WordPair pair) {
+  Widget _buildRow(WordPair pair, int i) {
     final bool alreadySaved = _saved.contains(pair);
     return new ListTile(
       title: new Text(
-        pair.asPascalCase,
+        pair.asPascalCase + '--' + i.toString(),
         style: _biggerFont,
       ),
       trailing: new Icon(alreadySaved ? Icons.favorite : Icons.face,
