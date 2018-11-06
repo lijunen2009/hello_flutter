@@ -1,13 +1,14 @@
 import 'package:hello_flutter/util/HttpUtil.dart';
 
-Future listOrder(int userId) async {
+Future listOrder(int userId,int currPage) async {
   String url = 'order/listOrder';
   var data = {
-    'curr_page': 1,
-    'page_number': 15,
+    'curr_page': currPage,
+    'page_number': 10,
     'status': 0,
     'user_id': userId
   };
+  print(data);
   var response = await HttpUtil().post(url, data: data);
   return response;
 }

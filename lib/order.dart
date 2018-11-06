@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:hello_flutter/service/order.dart';
-
+import 'package:flutter_refresh/flutter_refresh.dart';
 
 class OrderPage extends StatefulWidget {
   @override
@@ -10,22 +10,52 @@ class OrderPage extends StatefulWidget {
 
 class OrderStatus extends State<OrderPage> {
   List orderList = [];
-
+  int _itemCount = 0;
+  int _currPage = 1;
   setStore() async {
-    
-    var orders = await listOrder(124);
-    print(orders);
+    var orders = await listOrder(124, _currPage);
     setState(() {
-      orderList = orders['data']['list'];
+      for(var item in orders['data']['list']){
+        orderList.add(item);
+      }
+      if(_currPage == 1){
+        _itemCount = orders['data']['list'].length;
+      }else{
+         _itemCount += orders['data']['list'].length;
+      }
+      
+      
     });
-    print(orderList.length);
   }
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    // setStore();
+    setStore();
+    
+  }
+
+  Future<Null> onFooterRefresh() {
+    return new Future.delayed(new Duration(seconds: 2), () {
+      setState(() {
+        // _itemCount = _itemCount + orderList.length;
+        _currPage++;
+        setStore();
+        print(_itemCount);
+      });
+    });
+  }
+
+  Future<Null> onHeaderRefresh() {
+    return new Future.delayed(new Duration(seconds: 2), () {
+      setState(() {
+        orderList = [];
+        _itemCount = orderList.length;
+        _currPage = 1;
+        setStore();
+      });
+    });
   }
 
   Widget buildOrderItem(item, index) {
@@ -69,27 +99,64 @@ class OrderStatus extends State<OrderPage> {
           )),
     );
   }
+
+  Widget _buildItem(index) {
+    return new Column(
+      children: <Widget>[
+        buildOrderItem(orderList[index], index),
+        new Container(
+            padding: EdgeInsets.only(left: 10.0, right: 10.0),
+            child: new Divider()),
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    Widget orderListWidget = new ListView.builder(
-      itemCount: orderList.length,
-      itemBuilder: (context, index) {
-        return new Column(
-          children: <Widget>[
-            buildOrderItem(orderList[index], index),
-            new Container(
-              padding: EdgeInsets.only(left:10.0,right:10.0),
-              child:new Divider()
-            ),
-        
-          ],
-        );
-      },
-    );
-
+    // Widget orderListWidget = new ListView.builder(
+    //   itemCount: _itemCount,
+    //   itemBuilder: (context, index) {
+    //     return new Column(
+    //       children: <Widget>[
+    //         buildOrderItem(orderList[index], index),
+    //         new Container(
+    //             padding: EdgeInsets.only(left: 10.0, right: 10.0),
+    //             child: new Divider()),
+    //       ],
+    //     );
+    //   },
+    // );
+    // return  new Scaffold(
+    //   appBar: new AppBar(title: new Text('订单列表')),
+    //   body: orderListWidget,
+    // );
     return new Scaffold(
-      appBar: new AppBar(title: new Text('订单列表')),
-      body: orderListWidget,
-    );
+        appBar: new AppBar(title: new Text('订单列表')),
+        body: new SafeArea(
+            child: new Refresh(
+          onFooterRefresh: onFooterRefresh,
+          onHeaderRefresh: onHeaderRefresh,
+          childBuilder: (BuildContext context,
+              {ScrollController controller, ScrollPhysics physics}) {
+            return new Container(
+                child: new ListView.builder(
+              physics: physics,
+              controller: controller,
+              itemBuilder: (context, index) {
+                // print(index);
+                // print(orderList[index]);
+                return new Column(
+                  children: <Widget>[
+                    buildOrderItem(orderList[index], index),
+                    new Container(
+                        padding: EdgeInsets.only(left: 10.0, right: 10.0),
+                        child: new Divider()),
+                  ],
+                );
+              },
+              itemCount: _itemCount,
+            ));
+          },
+        )));
   }
 }
